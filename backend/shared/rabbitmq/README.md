@@ -1,0 +1,1 @@
+## Queue message management for Finn with RabbitMQ
