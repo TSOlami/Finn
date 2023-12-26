@@ -36,3 +36,27 @@ readme-ai.md
 
 # Secret files
 *-secrets.yaml
+secrets*
+configmap*
+
+# Build files
+build
+dist
+*.min.js
+*.min.css
+*.min.js.map
+*.min.css.map
+*.js.map
+*.css.map
+*.bundle.js
+*.bundle.js.map
+
+# Cache
+.cache
+.cache/
+.cache/*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+package-lock.json

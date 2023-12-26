@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 export const connectDb = async (): Promise<void> => {
 	try {
 		// Decode base64-encoded secrets
-		const mongoUri = Buffer.from(process.env.MONGO_URI as string, 'base64').toString('utf-8');
+		const mongoUri = process.env.MONGO_URI as string;
 
 		// Attempt to connect to the MongoDB cluster
 		const conn = await mongoose.connect(mongoUri);
