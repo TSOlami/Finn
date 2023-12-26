@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --no-cache
+RUN npm install --no-cache --registry=https://registry.npmjs.org/
 
 # Copy the rest of the files
 COPY . .
