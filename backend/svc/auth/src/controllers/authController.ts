@@ -1,7 +1,7 @@
 import { CookieOptions, Request, Response } from 'express';
 import { findAndUpdateUser, getGoogleOAuthTokens, getGoogleUserProfile } from '../utils/userService';
 import { createSession } from '../utils/sessionService';
-import { generateToken } from '../utils/tokenUtils';
+import { generateToken, verifyToken } from '../utils/tokenUtils';
 
 const accessTokenCookieOptions: CookieOptions = {
 	maxAge: 900000, // 15 minutes
@@ -85,6 +85,37 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 			message: 'Authentication successful. Redirect to dashboard.',
 			redirectTo: `${origin}/dashboard`,
 		});
+	} catch (error: any) {
+		console.error(error);
+		return res.status(500).send({ error: error.message });
+	}
+}
+
+export async function validateUserHandler(req: Request, res: Response) {
+	// Get the access token from the cookies
+	const accessToken = req.cookies.accessToken;
+
+	// If no access token was provided, return an error
+	if (!accessToken) {
+		return res.status(400).send({ error: 'No access token provided' });
+	}
+
+	try {
+		// Verify the access token
+		const { valid, expired, decoded } = verifyToken(accessToken);
+
+		// If the access token is invalid, return an error
+		if (!valid) {
+			return res.status(401).send({ error: 'Invalid access token' });
+		}
+
+		// If the access token is expired, return an error
+		if (expired) {
+			return res.status(401).send({ error: 'Access token expired' });
+		}
+
+		// Return the decoded access token
+		res.status(200).send({ decoded });
 	} catch (error: any) {
 		console.error(error);
 		return res.status(500).send({ error: error.message });
