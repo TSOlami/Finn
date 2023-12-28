@@ -1,5 +1,8 @@
-import os, gridfs, pika, json
-from flask import Flask, request
+import os
+from .routes import auth_routes
+import gridfs
+import pika
+from flask import Flask
 from flask_pymongo import PyMongo
 from .config import ApplicationConfig
 
@@ -29,5 +32,6 @@ def create_server():
 		# Import routes
 		from .routes import main
 		server.register_blueprint(main, url_prefix='/api/v1')
+		server.register_blueprint(auth_routes, url_prefix='/api/v1/auth')
 		
 		return server, mongo, fs, channel
