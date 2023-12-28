@@ -1,22 +1,9 @@
-import { CookieOptions, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { findAndUpdateUser, getGoogleOAuthTokens, getGoogleUserProfile } from '../utils/userService';
 import { createSession } from '../utils/sessionService';
 import { generateToken, verifyToken } from '../utils/tokenUtils';
 
-const accessTokenCookieOptions: CookieOptions = {
-	maxAge: 900000, // 15 minutes
-	httpOnly: true,
-	domain: "localhost",
-	path: "/",
-	sameSite: "lax",
-	secure: process.env.NODE_ENV === "production",
-};
-
-const refreshTokenCookieOptions: CookieOptions = {
-	...accessTokenCookieOptions,
-	maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-};
-
+// Get the frontend origin URL from the environment variables
 const origin = process.env.FRONTEND_ORIGIN_URL;
 
 export async function getGoogleOAuthHandler(req: Request, res: Response) {
@@ -74,20 +61,21 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 			{ expiresIn: process.env.REFRESH_TOKEN_LIFE_SPAN }
 		);
 
-		// Set the access and refresh tokens as cookies
-		res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-
-		res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
-
-		// Return the access and refresh tokens
+		// Return a json object with message and redirect url
 		res.status(200).json({
-			status: 'success',
-			message: 'Authentication successful. Redirect to dashboard.',
 			redirectTo: `${origin}/dashboard`,
+			tokens: {
+        accessToken,
+        refreshToken,
+      },
 		});
 	} catch (error: any) {
 		console.error(error);
-		return res.status(500).send({ error: error.message });
+		return res.status(500).json({
+      status: 'error',
+      message: error.message,
+      redirectTo: null,
+    })
 	}
 }
 
