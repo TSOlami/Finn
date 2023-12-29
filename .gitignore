@@ -67,3 +67,6 @@ venv/
 # Python
 __pycache__/
 *.pyc
+
+# Pnpm lock file
+*pnpm-lock*
