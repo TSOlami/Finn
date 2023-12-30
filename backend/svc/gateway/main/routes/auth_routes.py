@@ -1,5 +1,4 @@
 import os
-import requests
 from flask import Blueprint, request, redirect, jsonify, current_app
 from typing import Union, Tuple, Dict, Any
 from ..config import ApplicationConfig
