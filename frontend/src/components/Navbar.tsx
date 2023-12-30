@@ -2,11 +2,18 @@ import Link from "next/link";
 
 const Navbar = () => {
 	return (
-		<div className="bg-white shadow py-4 container mx-auto flex justify-between items-center w-full">
-			<div></div>
+		<header className="bg-white shadow px-3 py-4 mx-auto flex justify-between items-center w-full">
+			<div>
+				<h1 className="font-extrabold text-2xl text-green-800 animate-fade-in-left">
+					Finn
+				</h1>
+			</div>
 
-			<div className="flex">
-				<Link href={""} className="text-black flex border-2">
+			<div className="flex items-center gap-2">
+				<Link
+					href={""}
+					className="flex text-green-700 hover:text-green-800 font-semibold transition duration-300 ease-in-out animate-fade-in-right"
+				>
 					Log in{" "}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -16,21 +23,21 @@ const Navbar = () => {
 						stroke="currentColor"
 					>
 						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth="2"
 							d="M5 12h14M12 5l7 7-7 7"
 						></path>
 					</svg>
 				</Link>
 				<Link
-					className="rounded text-white bg-green-700 hover:bg-green-500 p-3"
+					className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 font-semibold transition duration-300 ease-in-out animate-fade-in-right"
 					href={""}
 				>
 					Sign Up
 				</Link>
 			</div>
-		</div>
+		</header>
 	);
 };
 
