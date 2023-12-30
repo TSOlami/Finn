@@ -1,5 +1,4 @@
 import os
-from .routes import auth_routes
 import gridfs
 import pika
 from flask import Flask
@@ -8,7 +7,6 @@ from .config import ApplicationConfig
 
 
 def create_server():
-				
 		# Create Flask server
 		server = Flask(__name__)
 		
@@ -31,7 +29,8 @@ def create_server():
 
 		# Import routes
 		from .routes import main
+		from .routes.auth_routes import auth
 		server.register_blueprint(main, url_prefix='/api/v1')
-		server.register_blueprint(auth_routes, url_prefix='/api/v1/auth')
+		server.register_blueprint(auth, url_prefix='/api/v1/auth')
 		
 		return server, mongo, fs, channel
