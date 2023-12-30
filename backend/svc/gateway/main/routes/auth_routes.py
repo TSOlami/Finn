@@ -3,14 +3,10 @@ import requests
 from flask import Blueprint, request, redirect, jsonify, current_app
 from typing import Union, Tuple, Dict, Any
 from ..config import ApplicationConfig
-from ..services.auth_svc import access
+from ..controllers.auth_svc import access
 
 auth = Blueprint('auth', __name__)
 
-
-@auth.route('/health', methods=['GET'])
-def health() -> jsonify:
-	return jsonify({'status': 'ok'})
 
 @auth.route('/', methods=['POST'])
 def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
