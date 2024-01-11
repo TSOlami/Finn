@@ -1,7 +1,8 @@
 import os
 import git
-import radon
-from flask import Blueprint, request, redirect, jsonify, current_app, send_file
+from flask import Blueprint, request, jsonify, current_app, send_file
+from pymongo import MongoClient
+from gridfs import GridFS
 from flask_restful_swagger_3 import swagger, Resource
 from ..config import ApplicationConfig
 from ..utils.code_analysis import analyze_codebase
@@ -37,12 +38,42 @@ def generate_docs():
 		# Analyze codebase and extract API information
         api_info = analyze_codebase(temp_dir, supported_file_types)
 
-        # Generate OpenAPI specification and return file ID
+       # Generate OpenAPI specification and get file ID
         file_id = generate_openapi_spec(api_info)
 
-        # Return file ID to the user
-        return jsonify({'status': 'success', 'message': 'Documentation generation initiated','file_id': file_id}), 200
+        # Return success message with file ID
+        return jsonify({'status': 'success', 'message': 'Documentation generation initiated', 'file_id': file_id}), 200
 
     except Exception as e:
         current_app.logger.error(f"Documentation generation error: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
+
+
+@api_docs.route('/get-docs/<string:file_id>', methods=['GET'])
+def get_docs(file_id):
+    try:
+        # Connect to MongoDB
+        client = MongoClient(current_app.config['MONGO_URI'])
+        db = client[current_app.config['MONGO_DB']]
+        fs = GridFS(db)
+
+        # Find the file in GridFS using the provided file ID
+        file_data = fs.find_one({'_id': file_id})
+
+        # If the file is not found, return an error
+        if not file_data:
+            client.close()
+            return jsonify({'error': 'File not found'}), 404
+
+        # Serve the file to the user
+        response = send_file(file_data, attachment_filename='openapi_spec.json', as_attachment=True)
+
+        # Close the MongoDB connection
+        client.close()
+
+        return response
+
+    except Exception as e:
+        current_app.logger.error(f"Error retrieving OpenAPI specification: {str(e)}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+    

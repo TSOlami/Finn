@@ -1,6 +1,8 @@
 import os
 import json
-import uuid
+from flask import current_app
+from pymongo import MongoClient
+from gridfs import GridFS
 
 def generate_openapi_spec(api_info):
     spec = {
@@ -23,10 +25,19 @@ def generate_openapi_spec(api_info):
             },
         }
 
-    file_id = str(uuid.uuid4())
-    output_file = f"openapi_spec_{file_id}.json"
+    # Save OpenAPI specification to GridFS and return file ID
+    return save_openapi_spec_to_gridfs(spec)
 
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(spec, f, ensure_ascii=False, indent=4)
+def save_openapi_spec_to_gridfs(openapi_spec):
+    client = MongoClient(current_app.config['MONGO_URI'])
+    db = client[current_app.config['MONGO_DB']]
+    fs = GridFS(db)
+
+    with fs.new_file(filename='openapi_spec.json', content_type='application/json') as f:
+        f.write(json.dumps(openapi_spec, ensure_ascii=False, indent=4).encode('utf-8'))
+
+    file_id = f._id
+
+    client.close()
 
     return file_id

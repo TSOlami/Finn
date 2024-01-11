@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, GridFS
 from .config import ApplicationConfig
 
 
@@ -16,7 +16,7 @@ def create_server():
 		mongo = PyMongo(server)
 
 		# Import routes
-		from .routes import service_routes
-		server.register_blueprint(service_routes, url_prefix='/api/v1/api-docs')
+		from .routes.service_routes import api_docs
+		server.register_blueprint(api_docs, url_prefix='/api/v1/api-docs')
 		
 		return server, mongo
