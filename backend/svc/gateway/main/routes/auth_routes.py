@@ -7,6 +7,11 @@ from ..controllers.auth_svc import access
 auth = Blueprint('auth', __name__)
 
 
+@auth.route('/health', methods=['GET'])
+def health() -> jsonify:
+    return jsonify({'status': 'ok'})
+
+
 @auth.route('/', methods=['POST'])
 def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
     try:
