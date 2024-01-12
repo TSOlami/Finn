@@ -34,7 +34,7 @@ def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
         
         # Check if tokens and redirectTo are present
         if tokens and redirectTo:
-            # Manually create cookie options
+            # Create cookie options
             accessTokenCookieOptions: Dict[str, Union[int, str, bool]] = {
                 'max_age': 900000,  # 15 minutes
                 'httponly': True,

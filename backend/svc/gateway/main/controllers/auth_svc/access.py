@@ -19,8 +19,9 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
         )
 
 		# Check if the request was successful
-		auth_response.raise_for_status()
-
+		if auth_response.status_code != 200:
+			return None, None, None, (auth_response.json(), auth_response.status_code)
+		
 		# Parse the response
 		auth_data: Dict[str, Any] = auth_response.json()
 
