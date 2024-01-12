@@ -30,7 +30,9 @@ def create_server():
 		# Import routes
 		from .routes import main
 		from .routes.auth_routes import auth
+		from .routes.vid_to_mp3_routes import vid_to_mp3
 		server.register_blueprint(main, url_prefix='/api/v1')
 		server.register_blueprint(auth, url_prefix='/api/v1/auth')
+		server.register_blueprint(vid_to_mp3, url_prefix='/api/v1/vid_to_mp3')
 		
 		return server, mongo, fs, channel
