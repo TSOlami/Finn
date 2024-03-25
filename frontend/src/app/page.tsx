@@ -69,7 +69,7 @@ export default function Home() {
 							</h4>
 						</div>
 						<p className="text-green-700">
-							Focus on what matters – coding – and let Jasper
+							Focus on what matters – coding – and let Finn
 							handle the rest.
 						</p>
 					</div>
