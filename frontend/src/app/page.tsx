@@ -10,7 +10,7 @@ export default function Home() {
 			{/* Landing section */}
 			<section className="flex flex-col md:flex-row items-center md:justify-between space-y-6 md:space-y-0 md:space-x-6 mb-24 p-4 relative w-full h-screen">
 				<div className="md:w-1/2 flex flex-col px-6 justify-center items-start">
-					<h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">
+					<h2 className="text-3xl md:text-4xl pt-2 font-bold text-green-800 mb-4">
 						Work Smart, Not Hard!
 					</h2>
 					<p className="text-lg md:text-xl text-green-700 mb-6">
@@ -40,7 +40,7 @@ export default function Home() {
 						</svg>
 					</button>
 				</div>
-				<div className="h-screen md:py-16 md:w-1/2 overflow-hidden">
+				<div className="md:h-screen md:py-16 md:w-1/2 overflow-hidden">
 					<Image
 						src={
 							"https://source.unsplash.com/featured/?nature,green,dog"
