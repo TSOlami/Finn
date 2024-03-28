@@ -9,8 +9,8 @@ export default function Home() {
 
 			{/* Landing section */}
 			<section className="flex flex-col md:flex-row items-center md:justify-between space-y-6 md:space-y-0 md:space-x-6 mb-24 p-4 relative w-full h-screen">
-				<div className="md:w-1/2 flex flex-col justify-center items-start">
-					<h2 className="text-4xl md:text-5xl font-bold text-green-800 mb-4">
+				<div className="md:w-1/2 flex flex-col px-6 justify-center items-start">
+					<h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">
 						Work Smart, Not Hard!
 					</h2>
 					<p className="text-lg md:text-xl text-green-700 mb-6">
@@ -22,11 +22,11 @@ export default function Home() {
 						to make your daily tasks a breeze and bring a touch of
 						magic to everything you do.
 					</p>
-					<button className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 flex items-center space-x-2">
+					<button className="bg-green-600 text-white md:px-6 px-4 md:py-3 py-2  rounded hover:bg-green-700 flex items-center space-x-2">
 						<span>Explore</span>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-4 w-4 md:h-5 md:w-5"
+							className="h-4 w-4 md:h-5 md:w-5 "
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -40,7 +40,7 @@ export default function Home() {
 						</svg>
 					</button>
 				</div>
-				<div className="h-screen md:w-1/2 overflow-hidden">
+				<div className="h-screen md:py-16 md:w-1/2 overflow-hidden">
 					<Image
 						src={
 							"https://source.unsplash.com/featured/?nature,green,dog"
@@ -48,15 +48,15 @@ export default function Home() {
 						width={400}
 						height={400}
 						priority
-						alt="Landing page image"
+						alt="Hero section image"
 						className="rounded-lg shadow-lg object-cover object-center w-full h-full"
 					/>
 				</div>
 			</section>
 
 			{/* Features Section */}
-			<section className="my-48 mx-4">
-				<h3 className="text-4xl font-bold text-green-800 mb-8">
+			<section className="md:my-16 my-8 mx-4">
+				<h3 className="text-3xl md:text-4xl font-bold text-green-800 mb-8">
 					Why use Finn?
 				</h3>
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -120,7 +120,7 @@ export default function Home() {
 
 			{/* FAQ section */}
 			<section className="mb-24 px-4">
-				<h3 className="text-4xl font-bold text-green-800 mb-16">
+				<h3 className="text-3xl md:text-4xl font-bold text-green-800 mb-16">
 					Frequently Asked Questions
 				</h3>
 				<div className="grid gap-8">
@@ -180,7 +180,7 @@ export default function Home() {
 			<section className="py-20 bg-green-200">
 				<div className="container mx-auto px-4 flex flex-col items-center">
 					<div className="max-w-3xl text-center mb-8">
-						<h2 className="text-4xl font-bold text-green-800 mb-4">
+						<h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-4">
 							Ready to Unlock the Power of Finn?
 						</h2>
 						<p className="text-lg text-green-700">
