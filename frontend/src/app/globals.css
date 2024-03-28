@@ -9,3 +9,13 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+/* Google button styles */
+.google-btn {
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.google-btn:hover {
+  background-color: #4285F4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
