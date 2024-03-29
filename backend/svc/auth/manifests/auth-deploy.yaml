@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-deployment
+  name: auth
+  labels:
+    app: auth
 spec:
   replicas: 2
   selector:
