@@ -12,11 +12,7 @@ function getGoogleOAuthURL() {
 		].join(" "),
 	};
 
-	console.log(options);
-
 	const qs = new URLSearchParams(options);
-
-	console.log({qs});
 
 	return `${rootUrl}?${qs.toString()}`;
 }

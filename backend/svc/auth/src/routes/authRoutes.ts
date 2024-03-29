@@ -6,9 +6,6 @@ const router = express.Router();
 // Import the controller file
 import { getGoogleOAuthHandler, validateUserHandler } from '../controllers/authController';
 
-// Import utils
-import { getGoogleOAuthURL } from '../utils/getGoogleURL';
-
 
 /**
  * @route   GET /api/v1/auth/oauth/google
@@ -16,7 +13,7 @@ import { getGoogleOAuthURL } from '../utils/getGoogleURL';
  * @access  Public
  * @returns {string} Google OAuth URL
  */
-router.get('/oauth/google', getGoogleOAuthURL);
+// router.get('/oauth/google', getGoogleOAuthURL);
 
 
 /**
