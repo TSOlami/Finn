@@ -70,3 +70,6 @@ __pycache__/
 
 # Pnpm lock file
 *pnpm-lock*
+
+# Yarn lock file
+*.next
