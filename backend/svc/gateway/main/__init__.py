@@ -14,16 +14,17 @@ def create_server():
         server.config.from_object(ApplicationConfig)
 
         # Set up MongoDB
-        server.config['MONGO_URI'] = os.environ['MONGO_URI']
+        server.config['VIDEOS_MONGO_URI'] = os.environ['VIDEOS_MONGO_URI']
 
         # Set up PyMongo instance
-        mongo = PyMongo(server)
-
-        # Get the MongoDB database instance
-        db = mongo.db
+        mongo_video = PyMongo(server, uri="mongodb://host.minikube.internal:27017/videos")
+        
+        mongo_mp3 = PyMongo(server, uri="mongodb://host.minikube.internal:27017/mp3s")
 
         # Set up GridFS
-        fs = gridfs.GridFS(db)
+        fs_videos = gridfs.GridFS(mongo_video.db)
+        fs_mp3s = gridfs.GridFS(mongo_mp3.db)
+
 
         # Configure the rabbitmq connection
         connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
@@ -38,4 +39,4 @@ def create_server():
         server.register_blueprint(auth, url_prefix='/api/v1/auth')
         server.register_blueprint(vid_to_mp3, url_prefix='/api/v1/vid_to_mp3')
         
-        return server, mongo, fs, channel
+        return server, fs_videos, fs_mp3s, channel
