@@ -34,10 +34,10 @@ def upload():
 	
 	for _, f in request.files.items():
 		# Get the fs and channel
-		_, _, fs, channel = create_server()
+		_, _, fs_videos, channel = create_server()
 
 		# Attempt to upload the file
-		err = util.upload(f, fs, channel, access)
+		err = util.upload(f, fs_videos, channel, access)
 
 		# Check if there was an error
 		if err:
