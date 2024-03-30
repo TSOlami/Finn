@@ -11,3 +11,4 @@ class ApplicationConfig:
     SERVER_ENV = os.environ["SERVER_ENV"]
     # Databases
     VIDEOS_MONGO_URI = os.environ["VIDEOS_MONGO_URI"]
+    MONGO_URI=os.environ["MONGO_URI"]
