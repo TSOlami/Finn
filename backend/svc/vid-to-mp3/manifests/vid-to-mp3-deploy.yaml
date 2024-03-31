@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: vid-to-mp3
+  labels:
+    app: gateway
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: vid-to-mp3
+
