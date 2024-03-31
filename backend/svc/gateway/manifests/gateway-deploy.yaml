@@ -20,10 +20,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: tsolami/finn-gateway:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
+          image: tsolami/finn-gateway
           envFrom:
             - configMapRef:
                 name: gateway-configmap
