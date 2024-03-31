@@ -13,7 +13,7 @@ def health():
 		return jsonify({'status': 'ok'})
 
 
-@vid_to_mp3.route('/upload', method=['POST'])
+@vid_to_mp3.route('/upload', methods=['POST'])
 def upload():
 
 	access, err = validate.token(request)
@@ -46,7 +46,7 @@ def upload():
 		# Return success message
 		return jsonify({'status': 'success', 'message': 'File uploaded successfully'}), 200
 	
-@vid_to_mp3.route('/download', method=['GET'])
+@vid_to_mp3.route('/download', methods=['GET'])
 def download():
 
 	access, err = validate.token(request)
