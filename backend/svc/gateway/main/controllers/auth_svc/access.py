@@ -6,14 +6,15 @@ from ...config import ApplicationConfig
 def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str], Optional[Tuple[str, int]]]:
 	try:
 		# Get the code from the request
-		code: Optional[str] = request.json.get('code')
+		code: Optional[str] = request.args.get('code')
 
 		if not code:
 			return None, None, ('No code provided', 400)
 		
 		# Make a request to the authentication service using the provided code
 		auth_service_url: str = ApplicationConfig.AUTH_SERVICE_URL
-		auth_response = requests.post(
+		
+		auth_response = requests.get(
             f"{auth_service_url}/sessions/oauth/google",
             json={'code': code, 'user_agent': request.headers.get('user-agent')}
         )
@@ -32,4 +33,4 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
 		return tokens, redirectTo, None
 	except Exception as e:
 		current_app.logger.error(f"Authentication error: {str(e)}")
-		return None, None, None, ('Internal Server Error', 500)
+		return None, None, ('Internal Server Error', 500)
