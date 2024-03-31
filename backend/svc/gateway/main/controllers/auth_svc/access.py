@@ -9,7 +9,7 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
 		code: Optional[str] = request.json.get('code')
 
 		if not code:
-			return None, None, None, ('No code provided', 400)
+			return None, None, ('No code provided', 400)
 		
 		# Make a request to the authentication service using the provided code
 		auth_service_url: str = ApplicationConfig.AUTH_SERVICE_URL
@@ -20,7 +20,7 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
 
 		# Check if the request was successful
 		if auth_response.status_code != 200:
-			return None, None, None, (auth_response.json(), auth_response.status_code)
+			return None, None, (auth_response.json(), auth_response.status_code)
 		
 		# Parse the response
 		auth_data: Dict[str, Any] = auth_response.json()
