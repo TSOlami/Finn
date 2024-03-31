@@ -27,7 +27,7 @@ def create_server():
 
 
         # Configure the rabbitmq connection
-        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
         channel = connection.channel()
         # channel.queue_declare(queue='task_queue', durable=True)
 
