@@ -9,4 +9,20 @@ spec:
   selector:
     matchLabels:
       app: vid-to-mp3
-
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 8
+  template:
+    metadata:
+      labels:
+        app: vid-to-mp3
+    spec:
+      containers:
+        - name: vid-to-mp3
+          image: tsolami/finn-vid-to-mp3
+          envFrom:
+            - configMapRef:
+                name: vid-to-mp3-configmap
+            - secretRef:
+                name: vid-to-mp3-secret
