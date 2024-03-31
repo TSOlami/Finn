@@ -7,8 +7,8 @@ import { generateToken, verifyToken } from '../utils/tokenUtils';
 const origin = process.env.FRONTEND_ORIGIN_URL;
 
 export async function getGoogleOAuthHandler(req: Request, res: Response) {
-	// Get the code from the request query string
-	const code = req.query.code as string;
+	// Get the code from the request json body
+	const code = req.body.code as string;
 
 	// If no code was provided, return an error
 	if (!code) {
@@ -48,7 +48,7 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 		}
 
 		// Create a session for the user
-		const session = await createSession(user._id, req.get("user-agent") || "");
+		const session = await createSession(user._id, req.body.user_agent || "");
 
 		// Generate access and refresh tokens for the user
 		const accessToken = generateToken(

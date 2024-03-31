@@ -12,11 +12,11 @@ def health() -> jsonify:
     return jsonify({'status': 'ok'})
 
 
-@auth.route('/', methods=['POST'])
+@auth.route('/', methods=['GET'])
 def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
     try:
-        # Get the code from the request
-        code: str = request.json.get('code')
+        # Get the code from the query string
+        code: str = request.args.get('code')
 
         # Ensure the code is provided
         if not code:
