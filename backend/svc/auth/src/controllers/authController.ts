@@ -69,7 +69,7 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 
 		// Return a json object with message and redirect url
 		res.status(200).json({
-			redirectTo: `${origin}/dashboard`,
+			redirectTo: `${origin}/home`,
 			tokens: {
         accessToken,
         refreshToken,
