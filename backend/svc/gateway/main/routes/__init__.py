@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 import requests
 
-from config import ApplicationConfig
+from ..config import ApplicationConfig
 
 main = Blueprint('main', __name__)
 
