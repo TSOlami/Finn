@@ -14,6 +14,7 @@ import { getGoogleOAuthHandler, validateUserHandler } from '../controllers/authC
  * @returns {Object} { status: string, message: string }
  */
 router.get('/health', (req, res) => {
+    console.log('Health check route called');
     res.json({ status: 'UP', message: 'Auth service is running' });
 });
 
