@@ -1,7 +1,13 @@
 import os, requests
+import logging
 from flask import current_app, Request
 from typing import Union, Tuple, Dict, Any, Optional
 from ...config import ApplicationConfig
+
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)  # Set the log level to INFO
+
 
 def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str], Optional[Tuple[str, int]]]:
 	try:
@@ -10,14 +16,22 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
 
 		if not code:
 			return None, None, ('No code provided', 400)
+
+		logging.info("Code: %s", code)
+
+		# Get the user agent from the request
+		user_agent: str = request.headers.get('user-agent')
 		
 		# Make a request to the authentication service using the provided code
 		auth_service_url: str = ApplicationConfig.AUTH_SERVICE_URL
 		
 		auth_response = requests.get(
-            f"{auth_service_url}/sessions/oauth/google",
-            json={'code': code, 'user_agent': request.headers.get('user-agent')}
+            f"{auth_service_url}/api/v1/auth/sessions/oauth/google",
+			headers={'user-agent': user_agent},
+            params={'code': code}
         )
+		# Display the response status code and object
+		logging.info(f"Auth response: {auth_response.json()}")
 
 		# Check if the request was successful
 		if auth_response.status_code != 200:
