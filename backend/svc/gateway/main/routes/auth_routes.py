@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Blueprint, request, redirect, jsonify, current_app
 from typing import Union, Tuple, Dict, Any
 from ..config import ApplicationConfig
@@ -7,13 +8,17 @@ from ..controllers.auth_svc import access
 auth = Blueprint('auth', __name__)
 
 
+logging.basicConfig(level=logging.INFO)  # Set the log level to INFO
+
 @auth.route('/health', methods=['GET'])
 def health() -> jsonify:
+    logging.info("Recieved a health check request...")
     return jsonify({'status': 'ok'})
 
 
 @auth.route('/', methods=['GET'])
 def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
+    logging.info("Recieved an authentication request...")
     try:
         # Get the code from the query string
         code: str = request.args.get('code')
@@ -21,7 +26,7 @@ def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
         # Ensure the code is provided
         if not code:
             return jsonify({'error': 'No code provided'}), 400
-
+        
         # Make a request to the authentication service using the provided code
         tokens: Dict[str, Any]
         redirectTo: str
