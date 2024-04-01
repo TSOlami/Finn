@@ -8,6 +8,17 @@ import { getGoogleOAuthHandler, validateUserHandler } from '../controllers/authC
 
 
 /**
+ * @route   GET /api/v1/health
+ * @desc    Health check route
+ * @access  Public
+ * @returns {Object} { status: string, message: string }
+ */
+router.get('/health', (req, res) => {
+    res.json({ status: 'UP', message: 'Auth service is running' });
+});
+
+
+/**
  * @route   GET /api/v1/auth/oauth/google
  * @desc    Redirects to Google consent screen for OAuth authentication
  * @access  Public
