@@ -15,27 +15,27 @@ export default function HomePage() {
 
 					<ServiceCard
 						title="API Documentation"
-						details="Access our comprehensive API documentation for integrating our services"
+						description="Access our comprehensive API documentation for integrating our services"
 					/>
 
 					<ServiceCard
 						title="Youtube Downloader"
-						details="Download videos from Youtube quickly and easily"
+						description="Download videos from Youtube quickly and easily"
 					/>
 
 					<ServiceCard
 						title="Tiktok Downloader"
-						details="Save your favorite Tiktok videos to your device"
+						description="Save your favorite Tiktok videos to your device"
 					/>
 
 					<ServiceCard
 						title="Video to Audio Converter"
-						details="Convert videos to high-quality audio formats"
+						description="Convert videos to high-quality audio formats"
 					/>
 
 					<ServiceCard
 						title="Text to speech"
-						details="Turn text into lifelike speech using our AI-powered service"
+						description="Turn text into lifelike speech using our AI-powered service"
 					/>
 				</div>
 			</div>
