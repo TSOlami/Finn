@@ -12,3 +12,5 @@ class ApplicationConfig:
     # Databases
     VIDEOS_MONGO_URI = os.environ["VIDEOS_MONGO_URI"]
     MONGO_URI=os.environ["MONGO_URI"]
+    FRONTEND_ORIGIN_URL=os.environ["FRONTEND_ORIGIN_URL"]
+    FRONTEND_ORIGIN_URL_ERROR_PAGE=os.environ["FRONTEND_ORIGIN_URL_ERROR_PAGE"]
