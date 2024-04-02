@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Link from "next/link";
@@ -7,7 +8,7 @@ export default function  SignUpPage () {
     return (
         <main>
             <Header />
-             <div className="bg-green-50 flex items-center justify-center h-screen">
+             <div className="h-screen bg-green-50 flex items-center justify-center h-screen">
            
            <div className="p-8 text-center rounded-lg max-w-sm w-full">
        <h1 className="text-4xl font-bold mb-2">Sign Up</h1>
