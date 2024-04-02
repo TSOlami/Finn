@@ -190,9 +190,26 @@ export default function Home() {
 							tasks.
 						</p>
 					</div>
-					<button className="bg-green-600 px-8 py-4 rounded hover:bg-green-700 text-white font-bold">
-						Get Started
-					</button>
+					<Link 
+					href="/home" 
+					className="bg-green-600 text-white md:px-6 px-4 md:py-3 py-2 rounded hover:bg-green-700 flex items-center space-x-2"
+					>
+						<span>Get Started</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-4 w-4 md:h-5 md:w-5"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth="2"
+								d="M9 5l7 7-7 7"
+							/>
+						</svg>
+					</Link>
 					<Image
 						src="https://source.unsplash.com/featured/?technology,workspace"
 						alt="Workspace"
