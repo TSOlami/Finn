@@ -70,13 +70,6 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 		// Return a json object with message and redirect url
 		res.status(200).json({
 			redirectTo: `${origin}/home`,
-			// user: {
-            //     id: user.googleId,
-            //     email: user.email,
-            //     name: user.name,
-            //     picture: user.picture,
-			// 	createdAt: user.createdAt
-            // },
 			tokens: {
         accessToken,
         refreshToken,
@@ -93,8 +86,8 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 }
 
 export async function validateUserHandler(req: Request, res: Response) {
-	// Get the access token from the cookies
-	const accessToken = req.cookies.accessToken;
+	// Get the access token from the request headers
+	const accessToken = req.headers['authorization']?.split(' ')[1];
 
 	// If no access token was provided, return an error
 	if (!accessToken) {
