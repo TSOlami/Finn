@@ -5,13 +5,20 @@ import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
+import { validateUser } from '@/utils/validateUser';
+
 
 const Navbar = () => {
+	// Call the validateUser function to check if the user is logged in
+	const user = validateUser();
+
+	console.log("User: ", user);
+
 	// Create a state to track whether the user profile dropdown is open
 	const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
 	// Create a variable to check if the user is logged in
-	const isUserLoggedIn = true;
+	const isUserLoggedIn = false;
 
 	return (	
 		<nav className="bg-white shadow px-4 py-5 mx-auto flex justify-between items-center w-full">
