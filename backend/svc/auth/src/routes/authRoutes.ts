@@ -20,15 +20,6 @@ router.get('/health', (req, res) => {
 
 
 /**
- * @route   GET /api/v1/auth/oauth/google
- * @desc    Redirects to Google consent screen for OAuth authentication
- * @access  Public
- * @returns {string} Google OAuth URL
- */
-// router.get('/oauth/google', getGoogleOAuthURL);
-
-
-/**
  * @route   GET /api/v1/auth/sessions/oauth/google
  * @desc    Authenticates user with Google OAuth and sets access and refresh tokens as cookies
  * @access  Public
