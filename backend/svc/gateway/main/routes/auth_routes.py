@@ -35,7 +35,7 @@ def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
 
         # Check if the request was successful and there were no errors
         if err:
-            return jsonify({'error': err[0]}), err[1]
+            return redirect(ApplicationConfig.FRONTEND_ORIGIN_URL_ERROR_PAGE)
         
         # Check if tokens and redirectTo are present
         if tokens and redirectTo:
@@ -66,4 +66,35 @@ def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
         return jsonify({'error': 'Unable to authenticate'}), 401
     except Exception as e:
         current_app.logger.error(f"Authentication error: {str(e)}")
-        return jsonify({'error': 'Internal Server Error'}), 500
+        # Redirect to error page
+        return redirect(ApplicationConfig.FRONTEND_ORIGIN_URL_ERROR_PAGE)
+
+
+@auth.route('/user', methods=['GET'])
+def user() -> Union[jsonify, Tuple[jsonify, int]]:
+    logging.info("Recieved a user request...")
+    try:
+        # Get the access token from the request
+        accessToken: str = request.cookies.get('access_token')
+
+        # Ensure the access token is provided
+        if not accessToken:
+            return jsonify({'error': 'No access token provided'}), 400
+        
+        # Make a request to the authentication service using the provided access token
+        userDetails: Dict[str, Any]
+        err: Tuple[str, int]
+        userDetails, err = access.validate_user(accessToken)
+
+        # Check if the request was successful and there were no errors
+        if err:
+            return redirect(ApplicationConfig.FRONTEND_ORIGIN_URL_ERROR_PAGE)
+        
+        # Check if userDetails is present
+        if userDetails:
+            return jsonify(userDetails)
+
+    except Exception as e:
+        current_app.logger.error(f"User details error: {str(e)}")
+        # Redirect to error page
+        return redirect(ApplicationConfig.FRONTEND_ORIGIN_URL_ERROR_PAGE)
