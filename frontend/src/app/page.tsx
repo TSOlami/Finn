@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
 	return (
@@ -22,7 +23,7 @@ export default function Home() {
 						to make your daily tasks a breeze and bring a touch of
 						magic to everything you do.
 					</p>
-					<button className="bg-green-600 text-white md:px-6 px-4 md:py-3 py-2  rounded hover:bg-green-700 flex items-center space-x-2">
+					<Link href={'/home'} className="bg-green-600 text-white md:px-6 px-4 md:py-3 py-2  rounded hover:bg-green-700 flex items-center space-x-2">
 						<span>Explore</span>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +39,7 @@ export default function Home() {
 								d="M9 5l7 7-7 7"
 							/>
 						</svg>
-					</button>
+					</Link>
 				</div>
 				<div className="md:h-screen md:py-16 md:w-1/2 overflow-hidden">
 					<Image
