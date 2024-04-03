@@ -31,36 +31,31 @@ def authenticate() -> Union[jsonify, Tuple[jsonify, int]]:
         tokens: Dict[str, Any]
         redirectTo: str
         err: Tuple[str, int]
-        tokens, redirectTo, err = access.auth_call(request)
+        user, tokens, redirectTo, err = access.auth_call(request)
+
+        logging.info(f"Tokens: {tokens}")
 
         # Check if the request was successful and there were no errors
         if err:
             return redirect(ApplicationConfig.FRONTEND_ORIGIN_URL_ERROR_PAGE)
         
         # Check if tokens and redirectTo are present
-        if tokens and redirectTo:
-            # Create cookie options
-            accessTokenCookieOptions: Dict[str, Union[int, str, bool]] = {
-                'max_age': 900000,  # 15 minutes
-                'httponly': True,
-                'domain': "localhost",
-                'path': "/",
-                'samesite': "lax",
-                'secure': False if ApplicationConfig.SERVER_ENV == 'development' else True,
-            }
-
-            refreshTokenCookieOptions: Dict[str, Union[int, str, bool]] = {
-                **accessTokenCookieOptions,
-                'max_age': 30 * 24 * 60 * 60 * 1000,  # 30 days
-            }
-
+        if user and tokens and redirectTo:
             # Set cookies
-            response: jsonify = jsonify({'status': 'success', 'message': 'Authentication successful'})
-            response.set_cookie("access_token", tokens['accessToken'], **accessTokenCookieOptions)
-            response.set_cookie("refresh_token", tokens['refreshToken'], **refreshTokenCookieOptions)
+            response: jsonify = jsonify({'redirectTo': redirectTo,
+                                         'user': user
+                                         })
+            response.set_cookie("access_token", 
+                                tokens['accessToken'],
+                                max_age=900000, 
+                                )
+            response.set_cookie("refresh_token",
+                                tokens['refreshToken'],
+                                max_age=2592000000,
+                                )
+            response.set_cookie("test_cookie", "We should see this cookie")
 
-            # Redirect the user to the specified URL
-            return redirect(redirectTo)
+            return response
         
         # Unable to authenticate, return error message
         return jsonify({'error': 'Unable to authenticate'}), 401
@@ -79,6 +74,7 @@ def user() -> Union[jsonify, Tuple[jsonify, int]]:
 
         # Ensure the access token is provided
         if not accessToken:
+            logging.info("No access token provided")
             return jsonify({'error': 'No access token provided'}), 400
         
         # Make a request to the authentication service using the provided access token
