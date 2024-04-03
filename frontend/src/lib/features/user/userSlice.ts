@@ -12,6 +12,7 @@ interface UserData {
   name: string;
   email: string;
   picture: string;
+  createdAt: string;
 }
 
 const initialState: UserState = {
