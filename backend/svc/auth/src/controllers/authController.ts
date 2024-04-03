@@ -69,6 +69,13 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 
 		// Return a json object with message and redirect url
 		res.status(200).json({
+			user: {
+				_id: user._id,
+				email: user.email,
+				name: user.name,
+				picture: user.picture,
+				createdAt: user.createdAt,
+			},
 			redirectTo: `${origin}/home`,
 			tokens: {
         accessToken,
