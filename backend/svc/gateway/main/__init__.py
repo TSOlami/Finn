@@ -3,6 +3,7 @@ import gridfs
 import pika
 from flask import Flask
 from flask_pymongo import PyMongo
+from flask_cors import CORS
 from .config import ApplicationConfig
 
 
@@ -10,6 +11,9 @@ def create_server():
         # Create Flask server
         server = Flask(__name__)
         
+        # Enable CORS
+        CORS(server)
+
         # Load config
         server.config.from_object(ApplicationConfig)
 
