@@ -5,20 +5,17 @@ import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { validateUser } from '@/utils/validateUser';
-
+import { useAppSelector } from '@/lib/hooks';
 
 const Navbar = () => {
-	// Call the validateUser function to check if the user is logged in
-	const user = validateUser();
-
-	console.log("User: ", user);
+	// Get the user details from the store
+	const userData = useAppSelector((state) => state?.user?.userData);
 
 	// Create a state to track whether the user profile dropdown is open
 	const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
 	// Create a variable to check if the user is logged in
-	const isUserLoggedIn = false;
+	const isUserLoggedIn = userData !== null;
 
 	return (	
 		<nav className="bg-white shadow px-4 py-5 mx-auto flex justify-between items-center w-full">
@@ -43,7 +40,17 @@ const Navbar = () => {
 							(prevState) => !prevState)}
 						className="flex items-center gap-3">
 							<div className="w-8 rounded-full bg-green-200 p-1">
-            					<FontAwesomeIcon icon={faUser} />
+            					{userData?.picture ? (
+									<Image
+										src={userData.picture}
+										width={30}
+										height={30}
+										alt="User Profile Picture"
+										className="rounded-full"
+									/>
+								) : (
+									<FontAwesomeIcon icon={faUser} className="text-green-800" />
+								)} 
         					</div>
 					</button>
 					{isProfileDropdownOpen && (
@@ -76,7 +83,7 @@ const Navbar = () => {
 										onClick={() => setIsProfileDropdownOpen(false)
 										}
 									>
-										<FontAwesomeIcon icon={faUser} className="mr-2" />
+										<FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
 										Logout
 									</Link>
 								</li>
