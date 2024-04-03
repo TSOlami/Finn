@@ -15,12 +15,14 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
 		code: Optional[str] = request.args.get('code')
 
 		if not code:
-			return None, None, ('No code provided', 400)
+			return None, None, None, ('No code provided', 400)
 
 		logging.info("Code: %s", code)
 
 		# Get the user agent from the request
 		user_agent: str = request.headers.get('user-agent')
+
+		logging.info("User agent: %s", user_agent)
 		
 		# Make a request to the authentication service using the provided code
 		auth_service_url: str = ApplicationConfig.AUTH_SERVICE_URL
@@ -35,7 +37,7 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
 
 		# Check if the request was successful
 		if auth_response.status_code != 200:
-			return None, None, (auth_response.json(), auth_response.status_code)
+			return None, None, None, (auth_response.json(), auth_response.status_code)
 		
 		# Parse the response
 		auth_data: Dict[str, Any] = auth_response.json()
@@ -43,11 +45,12 @@ def auth_call(request: Request) -> Tuple[Optional[Dict[str, Any]], Optional[str]
 		# Extract tokens and other data
 		tokens: Optional[Dict[str, Any]] = auth_data.get('tokens')
 		redirectTo: Optional[str] = auth_data.get('redirectTo')
+		user: Optional[Dict[str, Any]] = auth_data.get('user')
 
-		return tokens, redirectTo, None
+		return user, tokens, redirectTo, None
 	except Exception as e:
 		current_app.logger.error(f"Authentication error: {str(e)}")
-		return None, None, ('Internal Server Error', 500)
+		return None, None, None, ('Internal Server Error', 500)
 
 def validate_user(token: str) -> Tuple[Optional[Dict[str, Any]], Optional[Tuple[str, int]]]:
 	try:
