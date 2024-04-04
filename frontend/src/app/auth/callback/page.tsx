@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Navbar from "@/components/Navbar";
@@ -15,10 +15,18 @@ export default function CallbackPage() {
     const authuser = searchParams.get('authuser');
     const prompt = searchParams.get('prompt');
 
+    // State to track whether the fetch has already been made
+    const [fetchDone, setFetchDone] = useState(false);
+
     useEffect(() => {
         // Ensure that the code is present
         if (!code) {
             alert('No code provided');
+            return;
+        }
+
+        // Ensure that the fetch has not been made already
+        if (fetchDone) {
             return;
         }
 
@@ -32,6 +40,9 @@ export default function CallbackPage() {
             dispatch(setUser(data.user));
             console.log(data.user);
 
+            // Set fetchDone to true to prevent further fetches
+            setFetchDone(true);
+
             // // Redirect the user to the home page after 5 seconds
             setTimeout(() => {
                 window.location.href = '/home';
@@ -40,7 +51,7 @@ export default function CallbackPage() {
 
         fetchUserDetails();
     }
-    , []);
+    , [code, dispatch, fetchDone]);
 
     return (
         <main>
