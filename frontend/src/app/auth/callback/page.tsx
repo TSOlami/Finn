@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/features/user/userSlice";
+import Link from "next/link";
 
 export default function CallbackPage() {
     const searchParams = useSearchParams();
@@ -17,6 +18,12 @@ export default function CallbackPage() {
 
     // State to track whether the fetch has already been made
     const [fetchDone, setFetchDone] = useState(false);
+
+    // Create a state to track whether authentication was successful
+    const [authSuccess, setAuthSuccess] = useState(false);
+
+    // Create a loading state to show a loading spinner while the fetch is being made
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Ensure that the code is present
@@ -40,10 +47,16 @@ export default function CallbackPage() {
             dispatch(setUser(data.user));
             console.log(data.user);
 
+            // Set loading to false to hide the loading spinner
+            setLoading(false);
+
+            // Set authSuccess to true to show a success message
+            setAuthSuccess(true);
+
             // Set fetchDone to true to prevent further fetches
             setFetchDone(true);
 
-            // // Redirect the user to the home page after 5 seconds
+            // Redirect the user to the home page after 5 seconds
             setTimeout(() => {
                 window.location.href = '/home';
             }, 5000);
@@ -57,14 +70,22 @@ export default function CallbackPage() {
         <main>
             <Navbar />
             <div className="bg-green-50 flex items-center justify-center h-screen">
-                <div className="p-8 text-center rounded-lg max-w-sm w-full">
-                    <h1 className="text-4xl font-bold mb-2">Callback Page</h1>
-                    <p className="text-gray-700 mb-8">This is the callback page</p>
-                    <p className="text-center text-gray-600">Code: {code} </p>
-                    <p className="text-center text-gray-600">Scope: {scope} </p>
-                    <p className="text-center text-gray-600">Authuser: {authuser} </p>
-                    <p className="text-center text-gray-600">Prompt: {prompt} </p>
-                </div>
+                {loading && <div className="text-2xl">Loading...</div>}
+                {authSuccess && <>
+                <h1 className="text-4xl font-bold mb-2">Authentication successful!</h1>
+                <p className="text-gray-500">
+                    You will be redirected to the home page shortly.
+                </p>
+                <p className="text-gray-500">
+                    If you are not redirected, please click the button below.
+                </p>
+                <Link href="/home">
+                    <button className="bg-blue-500 text-white p-2 rounded-lg mt-4">
+                        Go to Home
+                    </button>
+                </Link>
+                </>
+                }
             </div>
         </main>
     );
