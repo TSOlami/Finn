@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import { useAppDispatch } from "@/lib/hooks";
 import { setUser } from "@/lib/features/user/userSlice";
 import Link from "next/link";
+import Loader from "@/components/Loader";
 
 export default function CallbackPage() {
     const searchParams = useSearchParams();
@@ -70,7 +71,14 @@ export default function CallbackPage() {
         <main>
             <Navbar />
             <div className="bg-green-50 flex items-center justify-center h-screen">
-                {loading && <div className="text-2xl">Loading...</div>}
+                {loading && 
+                <>
+                    <Loader/> 
+                <p className="text-gray-500">
+                    Please wait...
+                </p>
+                </>
+                }
                 {authSuccess && <>
                 <h1 className="text-4xl font-bold mb-2">Authentication successful!</h1>
                 <p className="text-gray-500">
