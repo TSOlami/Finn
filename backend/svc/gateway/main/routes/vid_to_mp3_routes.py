@@ -13,7 +13,7 @@ def health():
 		return jsonify({'status': 'ok'})
 
 
-@vid_to_mp3.route('/upload', method=['POST'])
+@vid_to_mp3.route('/upload', methods=['POST'])
 def upload():
 
 	access, err = validate.token(request)
@@ -34,10 +34,10 @@ def upload():
 	
 	for _, f in request.files.items():
 		# Get the fs and channel
-		_, _, fs, channel = create_server()
+		_, _, fs_videos, channel = create_server()
 
 		# Attempt to upload the file
-		err = util.upload(f, fs, channel, access)
+		err = util.upload(f, fs_videos, channel, access)
 
 		# Check if there was an error
 		if err:
@@ -46,7 +46,7 @@ def upload():
 		# Return success message
 		return jsonify({'status': 'success', 'message': 'File uploaded successfully'}), 200
 	
-@vid_to_mp3.route('/download', method=['GET'])
+@vid_to_mp3.route('/download', methods=['GET'])
 def download():
 
 	access, err = validate.token(request)

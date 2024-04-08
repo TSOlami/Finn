@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: gateway
+metadata: 
+  name: vid-to-mp3
   labels:
     app: gateway
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
-      app: gateway
+      app: vid-to-mp3
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 3
+      maxSurge: 8
   template:
     metadata:
       labels:
-        app: gateway
+        app: vid-to-mp3
     spec:
       containers:
-        - name: gateway
-          image: tsolami/finn-gateway
+        - name: vid-to-mp3
+          image: tsolami/finn-vid-to-mp3
           envFrom:
             - configMapRef:
-                name: gateway-configmap
+                name: vid-to-mp3-configmap
             - secretRef:
-                name: gateway-secret
+                name: vid-to-mp3-secret

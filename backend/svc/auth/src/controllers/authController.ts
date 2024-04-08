@@ -7,7 +7,7 @@ import { generateToken, verifyToken } from '../utils/tokenUtils';
 const origin = process.env.FRONTEND_ORIGIN_URL;
 
 export async function getGoogleOAuthHandler(req: Request, res: Response) {
-	// Get the code from the request query string
+	// Get the code from the request json body
 	const code = req.query.code as string;
 
 	// If no code was provided, return an error
@@ -15,12 +15,17 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 		return res.status(400).send({ error: 'No code provided' });
 	}
 
+	// Get the user agent from the request headers
+	const userAgent = req.headers['user-agent'] as string || "";
+
 	try {
-		// Get the ID and Access tokens based on the code
+		// Get the ID and Access tokens based on the codes
+		console.log("Fetching tokens...")
 		const { id_token, access_token } = await getGoogleOAuthTokens({ code });
-		console.log(id_token, access_token);
+		console.log("Fetching tokens successful")
 
 		// Get the user's profile based on the id token
+		console.log("Getting user profile...")
 		const googleUser = await getGoogleUserProfile({ id_token, access_token });
 
 		// Check if the user email is verified
@@ -29,6 +34,7 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 		}
 
 		// Upsert the user in the database
+		console.log("Upserting user into database...")
 		const user = await findAndUpdateUser({
 			email: googleUser.email,
 		}, {
@@ -48,7 +54,7 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 		}
 
 		// Create a session for the user
-		const session = await createSession(user._id, req.get("user-agent") || "");
+		const session = await createSession(user._id, userAgent);
 
 		// Generate access and refresh tokens for the user
 		const accessToken = generateToken(
@@ -63,7 +69,14 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 
 		// Return a json object with message and redirect url
 		res.status(200).json({
-			redirectTo: `${origin}/dashboard`,
+			user: {
+				_id: user._id,
+				email: user.email,
+				name: user.name,
+				picture: user.picture,
+				createdAt: user.createdAt,
+			},
+			redirectTo: `${origin}/home`,
 			tokens: {
         accessToken,
         refreshToken,
@@ -80,8 +93,8 @@ export async function getGoogleOAuthHandler(req: Request, res: Response) {
 }
 
 export async function validateUserHandler(req: Request, res: Response) {
-	// Get the access token from the cookies
-	const accessToken = req.cookies.accessToken;
+	// Get the access token from the request headers
+	const accessToken = req.headers['authorization']?.split(' ')[1];
 
 	// If no access token was provided, return an error
 	if (!accessToken) {
